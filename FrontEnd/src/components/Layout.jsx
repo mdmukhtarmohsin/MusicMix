@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import Body from "./Body";
 
-export default function Spotify() {
+export default function Layout() {
   return (
     <div>
       <div className="spotify__body">
