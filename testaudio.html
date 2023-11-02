@@ -1,44 +1,17 @@
 <!-- <source src="http://localhost:3000/tracks/stream/6543523b4a1b946664cbb1dc" type="audio/mpeg"> -->
 <!-- xhr.open('GET', "http://localhost:3000/tracks/stream/6543523b4a1b946664cbb1dc", true); -->
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Audio Player with Progress Bar</title>
-    <style>
-        #audioContainer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-        }
-
-        #customControls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #progressBar {
-            width: 100%;
-            height: 10px;
-            background-color: #ccc;
-            position: relative;
-        }
-
-        #currentProgress {
-            width: 0;
-            height: 100%;
-            background-color: #007bff;
-        }
-    </style>
+    <title>Custom Audio Player</title>
 </head>
 <body>
     <div id="audioContainer">
-        <audio id="audio" src="http://localhost:3000/tracks/stream/6543655b2772cf26bd6d82ba" controls style="display: none;"></audio>
+        <audio id="audio" controls style="display: none;"></audio>
         <div id="customControls">
+            <input type="text" id="trackIdInput" placeholder="Enter Track ID">
             <button id="playButton">Play</button>
             <button id="pauseButton">Pause</button>
             <p>Duration: <span id="duration">Calculating...</span></p>
@@ -57,23 +30,47 @@
         const progressSpan = document.getElementById('progress');
         const progressBar = document.getElementById('progressBar');
         const currentProgress = document.getElementById('currentProgress');
+        const trackIdInput = document.getElementById('trackIdInput');
 
         let audioDuration = 0;
 
-        // Fetch the audio duration
-        fetch(`http://localhost:3000/tracks/duration/6543655b2772cf26bd6d82ba`) // Replace 'your-track-id' with the actual track ID
-            .then(response => response.json())
-            .then(data => {
-                audioDuration = data.duration;
-                durationSpan.textContent = formatTime(audioDuration);
-            })
-            .catch(error => {
-                console.error('Error fetching audio duration:', error);
-            });
+        playButton.addEventListener('click', () => {
+            const trackId = trackIdInput.value;
+            if (trackId) {
+                playTrack(trackId);
+            }
+        });
 
         playButton.addEventListener('click', () => {
-            audio.play();
+    const trackId = trackIdInput.value;
+    if (trackId) {
+        fetchAudioDuration(trackId, (duration) => {
+            if (duration !== null) {
+                playTrack(trackId);
+                audioDuration = duration;
+                durationSpan.textContent = formatTime(audioDuration);
+            } else {
+                console.error('Error fetching audio duration.');
+            }
         });
+    }
+});
+
+// ...
+
+function fetchAudioDuration(trackId, callback) {
+    // Fetch the audio duration for the given track ID
+    fetch(`http://localhost:3000/tracks/duration/${trackId}`)
+        .then(response => response.json())
+        .then(data => {
+            const duration = data.duration;
+            callback(duration);
+        })
+        .catch(error => {
+            console.error('Error fetching audio duration:', error);
+            callback(null);
+        });
+}
 
         pauseButton.addEventListener('click', () => {
             audio.pause();
@@ -84,6 +81,19 @@
             progressSpan.textContent = formatTime(currentTime);
             updateProgressBar(currentTime);
         });
+
+        function playTrack(trackId) {
+            // Fetch the audio source URL for the given track ID
+            fetch(`http://localhost:3000/tracks/stream/${trackId}`)
+                .then(response => response.blob())
+                .then(blob => {
+                    audio.src = URL.createObjectURL(blob);
+                    audio.play();
+                })
+                .catch(error => {
+                    console.error('Error fetching and playing the track:', error);
+                });
+        }
 
         function formatTime(seconds) {
             const minutes = Math.floor(seconds / 60);
