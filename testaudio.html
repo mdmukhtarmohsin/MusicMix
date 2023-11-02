@@ -1,0 +1,101 @@
+<!-- <source src="http://localhost:3000/tracks/stream/6543523b4a1b946664cbb1dc" type="audio/mpeg"> -->
+<!-- xhr.open('GET', "http://localhost:3000/tracks/stream/6543523b4a1b946664cbb1dc", true); -->
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Audio Player with Progress Bar</title>
+    <style>
+        #audioContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        #customControls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #progressBar {
+            width: 100%;
+            height: 10px;
+            background-color: #ccc;
+            position: relative;
+        }
+
+        #currentProgress {
+            width: 0;
+            height: 100%;
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div id="audioContainer">
+        <audio id="audio" src="http://localhost:3000/tracks/stream/6543655b2772cf26bd6d82ba" controls style="display: none;"></audio>
+        <div id="customControls">
+            <button id="playButton">Play</button>
+            <button id="pauseButton">Pause</button>
+            <p>Duration: <span id="duration">Calculating...</span></p>
+            <p>Progress: <span id="progress">0:00</span></p>
+        </div>
+        <div id="progressBar">
+            <div id="currentProgress"></div>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const playButton = document.getElementById('playButton');
+        const pauseButton = document.getElementById('pauseButton');
+        const durationSpan = document.getElementById('duration');
+        const progressSpan = document.getElementById('progress');
+        const progressBar = document.getElementById('progressBar');
+        const currentProgress = document.getElementById('currentProgress');
+
+        let audioDuration = 0;
+
+        // Fetch the audio duration
+        fetch(`http://localhost:3000/tracks/duration/6543655b2772cf26bd6d82ba`) // Replace 'your-track-id' with the actual track ID
+            .then(response => response.json())
+            .then(data => {
+                audioDuration = data.duration;
+                durationSpan.textContent = formatTime(audioDuration);
+            })
+            .catch(error => {
+                console.error('Error fetching audio duration:', error);
+            });
+
+        playButton.addEventListener('click', () => {
+            audio.play();
+        });
+
+        pauseButton.addEventListener('click', () => {
+            audio.pause();
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const currentTime = audio.currentTime;
+            progressSpan.textContent = formatTime(currentTime);
+            updateProgressBar(currentTime);
+        });
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            const formattedTime = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            return formattedTime;
+        }
+
+        function updateProgressBar(currentTime) {
+            const widthPercentage = (currentTime / audioDuration) * 100;
+            currentProgress.style.width = `${widthPercentage}%`;
+        }
+    </script>
+</body>
+</html>
