@@ -3,9 +3,18 @@ import styled from "styled-components";
 
 export default function Volume() {
   return (
-    <div>
+    <Container>
       <input type="range" />
-    </div>
+    </Container>
   );
 }
- 
+const Container = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  input {
+    width: 15rem;
+    border-radius: 2rem;
+    height: 0.5rem;
+  }
+`;
