@@ -60,7 +60,7 @@
 
 function fetchAudioDuration(trackId, callback) {
     // Fetch the audio duration for the given track ID
-    fetch(`http://localhost:3000/tracks/duration/${trackId}`)
+    fetch(`https://loud-weight1875-production.up.railway.app/tracks/duration/${trackId}`)
         .then(response => response.json())
         .then(data => {
             const duration = data.duration;
@@ -84,7 +84,7 @@ function fetchAudioDuration(trackId, callback) {
 
         function playTrack(trackId) {
             // Fetch the audio source URL for the given track ID
-            fetch(`http://localhost:3000/tracks/stream/${trackId}`)
+            fetch(`https://loud-weight1875-production.up.railway.app/tracks/stream/${trackId}`)
                 .then(response => response.blob())
                 .then(blob => {
                     audio.src = URL.createObjectURL(blob);
