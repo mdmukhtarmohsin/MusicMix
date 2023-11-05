@@ -16,8 +16,7 @@ export default function Layout() {
             <Body />
           </div>
         </div>
-      </div>
-      
+      </div>   
       <div>
         <Footer />
       </div>
@@ -36,7 +35,6 @@ const Container = styled.div`
     grid-template-columns: 22vw 80vw;
     height: 100%;
     width: 100%;
-    /* background: linear-gradient(transparent, rgba(0, 0, 0, 1)); */
     background-color: rgb(18,18,18);
     .body {
       height: 100%;
