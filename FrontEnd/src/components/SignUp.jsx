@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { RxCross2 } from "react-icons/rx"
 import Toast from "./Toast";
 import axios from "axios"
-function SignUp({ clickCancle }) {
+function SignUp({ clickCancle,setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,9 +26,11 @@ function SignUp({ clickCancle }) {
         setSuccessMessage("Registration successful!");
         setErrorMessage("");
         setShowToast(true);
+        
         setTimeout(() => {
+          setIsLoggedIn(true);
           clickCancle();
-        }, 2000); 
+        }, 1000); 
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
