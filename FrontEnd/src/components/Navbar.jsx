@@ -9,12 +9,12 @@ import { useEffect } from "react";
 export default function Navbar() {
   const [loginPopup, setLoginPopup] = useState(false);
   const [signupPopup, setSignupPopup] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const authToken = localStorage.getItem("AuthToken");
     if(authToken){
-      setIsLoggedIn(authToken);
+      setIsLoggedIn(true);
     }    
   }, [isLoggedIn]);
 
@@ -65,10 +65,10 @@ export default function Navbar() {
         </div>
       </Container>
       {
-        loginPopup && <div className="loginDiv"><Login clickCancle={clickCancle} /></div>
+        loginPopup && <div className="loginDiv"><Login clickCancle={clickCancle} setIsLoggedIn={setIsLoggedIn}/></div>
       }
       {
-        signupPopup && <div className="loginDiv"><SignUp clickCancle={clickCancle} /></div>
+        signupPopup && <div className="loginDiv"><SignUp clickCancle={clickCancle} setIsLoggedIn={setIsLoggedIn}/></div>
       }
     </div>
   );

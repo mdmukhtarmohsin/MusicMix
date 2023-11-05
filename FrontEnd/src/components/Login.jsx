@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { RxCross2 } from "react-icons/rx"
 import Toast from "./Toast";
 import axios from "axios"
-function Login({ clickCancle }) {
+function Login({ clickCancle, setIsLoggedIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -24,9 +24,11 @@ function Login({ clickCancle }) {
         setSuccessMessage("Login successful!");
         setErrorMessage("");
         setShowToast(true);
+        
         setTimeout(() => {
+          setIsLoggedIn(true);
           clickCancle();
-        }, 2000);
+        }, 1000);
       }
 
     } catch (error) {
