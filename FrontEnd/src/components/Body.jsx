@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { usePlayerContext } from "./PlayerContext";
 import styled from "styled-components";
 import axios from "axios";
 import SongCard from "./SongCard";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const Body = () => {
-  const [songs, setSongs] = useState([]);
+  const { state, dispatch } = usePlayerContext();
+  // const [songs, setSongs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const songsPerPage = 8;
@@ -14,8 +16,9 @@ const Body = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get("https://loud-weight1875-production.up.railway.app/tracks/list");
-        setSongs(res.data);
-        console.log(res.data);
+        // setSongs(res.data);
+        dispatch({ type: "SET_SONGS", payload: res.data });
+        // console.log(res.data);
         setTotalPages(Math.ceil(res.data.length / songsPerPage));
       } catch (error) {
         console.log(error);
@@ -27,7 +30,9 @@ const Body = () => {
   const getPaginatedSongs = () => {
     const startIndex = (currentPage - 1) * songsPerPage;
     const endIndex = startIndex + songsPerPage;
-    return songs.slice(startIndex, endIndex);
+    // let newarr=songs.slice(startIndex, endIndex);
+    // dispatch({ type: "SET_SONGS", payload: newarr })
+    return state.songs;
   };
 
   const handleNextPage = () => {
@@ -46,7 +51,7 @@ const Body = () => {
     <Container>
       <SongList>
         {getPaginatedSongs().map((song, index) => (
-          <SongCard key={index} {...song} />
+          <SongCard key={index} {...song} index={index} />
         ))}
       </SongList>
       <Pagination>
@@ -62,7 +67,7 @@ export default Body;
 const Container = styled.div`
   width: 95%;
   padding: 20px;
-  
+
 `;
 
 const SongList = styled.div`

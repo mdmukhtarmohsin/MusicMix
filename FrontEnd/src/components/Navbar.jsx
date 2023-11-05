@@ -6,16 +6,33 @@ import { CgProfile } from "react-icons/cg";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import { useEffect } from "react";
+import axios from "axios"
 export default function Navbar() {
   const [loginPopup, setLoginPopup] = useState(false);
   const [signupPopup, setSignupPopup] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [name, setName] = useState("");
   useEffect(() => {
     const authToken = localStorage.getItem("AuthToken");
-    if(authToken){
+    if (authToken) {
+      const setProfile = async () => {
+        try {
+          const res = await axios.get("https://loud-weight1875-production.up.railway.app/auth/profile", {
+            headers: {
+              Authorization: `bearer ${authToken}`
+            }
+          });
+
+          if (res.status === 200) {
+            setName(res.data.username);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      setProfile();
       setIsLoggedIn(true);
-    }    
+    }
   }, [isLoggedIn]);
 
   const clickLogin = () => {
@@ -34,12 +51,12 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("AuthToken");
-    setIsLoggedIn(false); 
+    setIsLoggedIn(false);
   };
   return (
     <div>
       <Container>
-        
+
         <div className="searchbar">
           <div className="logo" >
             <FaSearch />
@@ -50,7 +67,13 @@ export default function Navbar() {
 
           <div>
             {isLoggedIn ? (
-              <ButtonLogout onClick={handleLogout}>Logout</ButtonLogout>
+              <>
+                <a href="/">
+                  <CgProfile />
+                  <span>{name}</span>
+                </a>
+                <ButtonLogout onClick={handleLogout}>Logout</ButtonLogout>
+              </>
             ) : (
               <>
                 <Buttonsignup onClick={clickSignup}>Sign up</Buttonsignup>
@@ -58,18 +81,13 @@ export default function Navbar() {
               </>
             )}
           </div>
-
-          {/* <a href="/">
-          <CgProfile />
-          <span>Username</span>
-        </a> */}
         </div>
       </Container>
       {
-        loginPopup && <div className="loginDiv"><Login clickCancle={clickCancle} setIsLoggedIn={setIsLoggedIn}/></div>
+        loginPopup && <div className="loginDiv"><Login clickCancle={clickCancle} setIsLoggedIn={setIsLoggedIn} /></div>
       }
       {
-        signupPopup && <div className="loginDiv"><SignUp clickCancle={clickCancle} setIsLoggedIn={setIsLoggedIn}/></div>
+        signupPopup && <div className="loginDiv"><SignUp clickCancle={clickCancle} setIsLoggedIn={setIsLoggedIn} /></div>
       }
     </div>
   );

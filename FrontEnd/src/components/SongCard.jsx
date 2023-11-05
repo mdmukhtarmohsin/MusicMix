@@ -1,55 +1,17 @@
  
-// import React,{useState}from "react";
-// import styled from "styled-components";
-// import { FaCirclePlay } from "react-icons/fa6"
-
-// const SongCard = ({ album, artist, title, _id }) => {
-
-//     const [isPlaying, setIsPlaying] = useState(false);
-//     const audio = new Audio();
-
-//     const handlePlayPauseClick = () => {
-//         if (isPlaying) {
-//             audio.pause();
-//         } else {
-//             audio.src = `https://loud-weight1875-production.up.railway.app/tracks/stream/${_id}`;
-//             audio.play();
-//         }
-//         setIsPlaying(!isPlaying);
-//     };
-//     return (
-//         <Container>
-//             <ImageContainer>
-//                 <Image src={album} alt={`${title} Album Cover`} />
-//                 <FaCirclePlayIcon>
-//                     <FaCirclePlay className="play-icon" onClick={handlePlayPauseClick}/>
-//                 </FaCirclePlayIcon>
-//             </ImageContainer>
-//             <Artist>{artist}</Artist>
-//             <Title>{title}</Title>
-//         </Container>
-//     );
-// };
-
-
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaCirclePlay } from "react-icons/fa6"
+import { usePlayerContext } from "./PlayerContext";
 
-const SongCard = ({ album, artist, title, _id }) => {
+const SongCard = ({ album, artist, title, _id,index }) => {
+    const { state, dispatch } = usePlayerContext();
 
-    const [isPlaying, setIsPlaying] = useState(false);
-    const audio = new Audio();
+    
 
     const handlePlayPauseClick = () => {
-        if (isPlaying) {
-            audio.pause();
-        } else {
-            audio.src = `https://loud-weight1875-production.up.railway.app/tracks/stream/${_id}`;
-            audio.play();
-        }
-        setIsPlaying(!isPlaying);
-    };
+        dispatch({ type: "SET_CURRENT_SONG_INDEX", payload: index });
+    }
     return (
         <Container>
             <ImageContainer>
