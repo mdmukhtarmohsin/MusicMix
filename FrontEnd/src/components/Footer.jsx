@@ -1,14 +1,15 @@
-import React from "react";
+import React,{useRef} from "react";
 import styled from "styled-components";
 import PlayerControls from "./PlayerControls";
 import Volume from "./Volume";
 import CurrentTrack from "./CurrentTrack"
 export default function Footer() {
+  const volumeRef = useRef(0.5);
   return (
     <Container>
-      <PlayerControls />
+      <PlayerControls volumeRef={volumeRef}/>
       <CurrentTrack />
-      <Volume />
+      <Volume volumeRef={volumeRef}/>
     </Container>
   );
 }

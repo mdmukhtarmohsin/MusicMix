@@ -16,7 +16,7 @@ export default function Layout() {
             <Body />
           </div>
         </div>
-      </div>   
+      </div>
       <div>
         <Footer />
       </div>
@@ -50,4 +50,3 @@ const Container = styled.div`
     }
   }
 `;
- 

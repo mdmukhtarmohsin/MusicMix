@@ -1,10 +1,17 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 
-export default function Volume() {
+export default function Volume({volumeRef}) {
+  const [vol,setVol]=useState(volumeRef.current);
+  volumeRef.current=vol;
+  
   return (
     <Container>
-      <input type="range" />
+      <input type="range" min="0"
+        max="1"
+        step="0.01" value={vol} onChange={(e)=>{
+        setVol(+e.target.value);
+      }}/>
     </Container>
   );
 }
