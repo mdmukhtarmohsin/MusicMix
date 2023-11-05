@@ -5,10 +5,19 @@ import { FaSearch } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import Login from "./Login";
 import SignUp from "./SignUp";
-
+import { useEffect } from "react";
 export default function Navbar() {
   const [loginPopup, setLoginPopup] = useState(false);
   const [signupPopup, setSignupPopup] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState("");
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("AuthToken");
+    if(authToken){
+      setIsLoggedIn(authToken);
+    }    
+  }, [isLoggedIn]);
+
   const clickLogin = () => {
     setLoginPopup(true);
     setSignupPopup(false);
@@ -22,6 +31,11 @@ export default function Navbar() {
     setLoginPopup(false);
     setSignupPopup(false);
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("AuthToken");
+    setIsLoggedIn(false); 
+  };
   return (
     <div>
       <Container>
@@ -34,8 +48,14 @@ export default function Navbar() {
         <div className="avatar">
 
           <div>
-            <Buttonsignup onClick={clickSignup}>Sign up</Buttonsignup>
-            <ButtonLogin onClick={clickLogin}>Log in</ButtonLogin>
+            {isLoggedIn ? (
+              <ButtonLogout onClick={handleLogout}>Logout</ButtonLogout>
+            ) : (
+              <>
+                <Buttonsignup onClick={clickSignup}>Sign up</Buttonsignup>
+                <ButtonLogin onClick={clickLogin}>Log in</ButtonLogin>
+              </>
+            )}
           </div>
 
           {/* <a href="/">
@@ -119,6 +139,20 @@ const Buttonsignup = styled.button`
   }
 `;
 
+const ButtonLogout = styled.button`
+  background-color: rgb(255, 255, 255);
+  color: black;
+  border: none;
+  border-radius: 20px;
+  width: 90px;
+  height: 35px;
+  margin-right: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  &:hover {
+    scale: calc(1.1);
+  }
+`;
 // const Avatar = styled.div`
 //   background-color: black;
 //   padding: 0.3rem 0.4rem;

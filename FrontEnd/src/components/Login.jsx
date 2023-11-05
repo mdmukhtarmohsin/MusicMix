@@ -1,43 +1,74 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FiMail, FiLock } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx"
-
+import Toast from "./Toast";
+import axios from "axios"
 function Login({ clickCancle }) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setShowToast(false);
+    const payload = {
+      email,
+      password
+    }
+    try {
+      const res = await axios.post("https://loud-weight1875-production.up.railway.app/auth/login", payload);
+      if (res.status === 200) {
+        localStorage.setItem("AuthToken", res.data.token);
+        console.log("token", res.data.token);
+        setSuccessMessage("Login successful!");
+        setErrorMessage("");
+        setShowToast(true);
+        setTimeout(() => {
+          clickCancle();
+        }, 2000);
+      }
 
-    const handleLogin = () => {
-        console.log("Email:", email);
-        console.log("Password:", password);
-    };
-    return (
-        <Container>
-            <Form onSubmit={(e) => e.preventDefault()}>
-                <div className="cancleBtn">
-                    <RxCross2 onClick={clickCancle} style={{ fontSize: "30px" }} />
-                </div>
-                <Title>Login</Title>
-                <FormGroup>
-                    <Label>Email:</Label>
-                    <Input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label>Password:</Label>
-                    <Input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </FormGroup>
-                <ButtonHover onClick={handleLogin}>Log In</ButtonHover>
-            </Form>
-        </Container>
-    );
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setErrorMessage(error.response.data.message);
+        setSuccessMessage("");
+        setShowToast(true);
+      }
+    }
+  };
+  return (
+    <Container>
+      <Form onSubmit={(e) => e.preventDefault()}>
+        <div className="cancleBtn">
+          <RxCross2 onClick={clickCancle} style={{ fontSize: "30px" }} />
+        </div>
+        <Title>Login</Title>
+        <FormGroup>
+          <Label>Email:</Label>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label>Password:</Label>
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </FormGroup>
+        <ButtonHover onClick={handleLogin}>Log In</ButtonHover>
+        {showToast && (
+          <Toast message={successMessage || errorMessage} type={successMessage ? "success" : "error"} />
+        )}
+      </Form>
+    </Container>
+  );
 }
 
 const Container = styled.div`
