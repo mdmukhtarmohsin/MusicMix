@@ -1,23 +1,4 @@
-// import React from "react";
-// import styled from "styled-components";
-// import {FaCirclePlay} from "react-icons/fa6"
-
-// const SongCard = ({ album, artist, title, _id }) => {
-//   return (
-//     <Container>
-//       <ImageContainer>
-//         <Image src={album} alt={`${title} Album Cover`} />
-//         <FaCirclePlayIcon>
-//         <FaCirclePlay className="play-icon"/>
-//         </FaCirclePlayIcon>
-//       </ImageContainer>
-//       <Artist>{artist}</Artist>
-//       <Title>{title}</Title>
-//     </Container>
-//   );
-// };
-
-
+ 
 // import React,{useState}from "react";
 // import styled from "styled-components";
 // import { FaCirclePlay } from "react-icons/fa6"
