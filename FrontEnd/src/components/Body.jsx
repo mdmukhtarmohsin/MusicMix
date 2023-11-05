@@ -62,6 +62,7 @@ export default Body;
 const Container = styled.div`
   width: 95%;
   padding: 20px;
+  
 `;
 
 const SongList = styled.div`
