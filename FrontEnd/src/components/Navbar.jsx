@@ -66,7 +66,7 @@ export default function Navbar() {
         <div className="avatar">
 
           <div>
-            {isLoggedIn ? (
+            {isLoggedIn? (
               <>
                 <a href="/">
                   <CgProfile />

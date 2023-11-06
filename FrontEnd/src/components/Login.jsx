@@ -24,7 +24,6 @@ function Login({ clickCancle, setIsLoggedIn }) {
         setSuccessMessage("Login successful!");
         setErrorMessage("");
         setShowToast(true);
-        
         setTimeout(() => {
           setIsLoggedIn(true);
           clickCancle();
@@ -43,7 +42,7 @@ function Login({ clickCancle, setIsLoggedIn }) {
     <Container>
       <Form onSubmit={(e) => e.preventDefault()}>
         <div className="cancleBtn">
-          <RxCross2 onClick={clickCancle} style={{ fontSize: "30px" }} />
+          <RxCross2 onClick={clickCancle} style={{ fontSize: "28px" }} />
         </div>
         <Title>Login</Title>
         <FormGroup>
@@ -88,8 +87,8 @@ left:40%;
 position: absolute;
 right: 20px;
 color:white;
-top: -21px;
-right: -23px;
+top: 10px;
+right: 10px;
 }
 `;
 
