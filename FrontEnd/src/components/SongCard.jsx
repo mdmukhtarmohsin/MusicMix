@@ -1,29 +1,40 @@
- 
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaCirclePlay } from "react-icons/fa6"
 import { usePlayerContext } from "./PlayerContext";
+import Toast from "./Toast";
+import Login from "./Login";
+const SongCard = ({ album, artist, title, _id, index }) => {
+  const { state, dispatch } = usePlayerContext();
+  const [flag, setFlag] = useState(false);
+  const token = localStorage.getItem("AuthToken");
 
-const SongCard = ({ album, artist, title, _id,index }) => {
-    const { state, dispatch } = usePlayerContext();
+  const clickCancle = () => {
+    setFlag(false);
+  }
 
-    
-
-    const handlePlayPauseClick = () => {
-        dispatch({ type: "SET_CURRENT_SONG_INDEX", payload: index });
+  const handlePlayPauseClick = () => {
+    if (token) {
+      setFlag(false)
+      dispatch({ type: "SET_CURRENT_SONG_INDEX", payload: index });
     }
-    return (
-        <Container>
-            <ImageContainer>
-                <Image src={album} alt={`${title} Album Cover`} />
-                <FaCirclePlayIcon>
-                    <FaCirclePlay className="play-icon" onClick={handlePlayPauseClick} />
-                </FaCirclePlayIcon>
-            </ImageContainer>
-            <Artist>{artist}</Artist>
-            <Title>{title}</Title>
-        </Container>
-    );
+    else {
+      setFlag(true);
+    }
+  }
+  return (
+    <Container>
+      <ImageContainer>
+        <Image src={album} alt={`${title} Album Cover`} />
+        <FaCirclePlayIcon>
+          <FaCirclePlay className="play-icon" onClick={handlePlayPauseClick} />
+        </FaCirclePlayIcon>
+      </ImageContainer>
+      <Artist>{artist}</Artist>
+      <Title>{title}</Title>
+      {flag && <Login clickCancle={clickCancle} />}
+    </Container>
+  );
 };
 
 const Container = styled.div`

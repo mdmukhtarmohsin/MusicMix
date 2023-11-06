@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { RxCross2 } from "react-icons/rx"
 import axios from "axios"
-function PlayListModel() {
+function PlayListModel({clickCancle}) {
     const [name, setName] = useState("");
     const [desc, setDesc] = useState("");
     const token = localStorage.getItem("AuthToken");
@@ -27,7 +27,7 @@ function PlayListModel() {
         <Container>
             <Form onSubmit={submitPlaylist}>
                 <div className="cancleBtn">
-                    <RxCross2 style={{ fontSize: "30px" }} />
+                    <RxCross2 onClick={clickCancle} style={{ fontSize: "30px" }} />
                 </div>
                 <Title>Create PlayList</Title>
                 <FormGroup>
@@ -67,8 +67,8 @@ left:40%;
 position: absolute;
 right: 20px;
 color:white;
-top: -21px;
-right: -23px;
+top: 10px;
+right: 10px;
 }
 `;
 

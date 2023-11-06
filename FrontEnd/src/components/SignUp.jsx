@@ -95,8 +95,8 @@ left:40%;
 position: absolute;
 right: 20px;
 color:white;
-top: -21px;
-right: -23px;
+top: 10px;
+right: 10px;
 }
 `;
 

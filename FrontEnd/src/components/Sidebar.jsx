@@ -7,6 +7,9 @@ import { SiYoutubemusic } from "react-icons/si"
 import PlayListModel from "./PlaylistModel"
 export default function Sidebar() {
   const [flag, setFlag] = useState(false);
+  const clickCancle = () => {
+    setFlag(false);
+  }
   return (
     <Container>
       <TopLinks className="top-links">
@@ -42,7 +45,7 @@ export default function Sidebar() {
             <div>
               <button className="playlistBtn" onClick={(e) => { setFlag(!flag) }}>Create playlist</button>
               {
-                flag && <PlayListModel/>
+                flag && <PlayListModel  clickCancle={clickCancle}/>
               }
             </div>
           </div>
