@@ -2,4 +2,5 @@
 
 Stream your favourite Music.
 
-![alt text](https://i.ibb.co/Dt4LGpQ/Capturemusic.jpg)
+![Capturemusic](https://github.com/mdmukhtarmohsin/MusicMix/assets/25591878/cac0ea80-49cc-45ae-8bc5-01faffa1b484)
+
