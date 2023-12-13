@@ -3,7 +3,7 @@ import { MdHomeFilled } from "react-icons/md";
 
 export const SideBar = () => {
   return (
-    <div className="text-white w-1/4 rounded flex flex-col gap-2">
+    <div className="hidden text-white w-1/4 rounded md:flex flex-col gap-2">
       <div className="bg-primary-800 rounded p-2 flex flex-col gap-2 h-24">
         <div className=" flex item-center gap-4 items-center">
           <SiYoutubemusic style={{ color: "white", fontSize: "35px" }} />
@@ -18,7 +18,7 @@ export const SideBar = () => {
           </h1>
         </div>
       </div>
-      <div className="bg-primary-800 rounded">Playlists</div>
+      <div className="bg-primary-800 rounded h-full">Playlists</div>
     </div>
   );
 };
