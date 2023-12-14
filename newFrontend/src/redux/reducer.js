@@ -4,16 +4,18 @@ import {
   GET_REQUEST,
   GET_SIGNIN_SUCCESS,
   GET_SIGNUP_SUCCESS,
+  SAVE_TO_BEFORE_FILTER,
   SET_CURRENT_PLAYING,
   SET_CURRENT_SONG_DATA,
 } from "./actionTypes";
 
 const initialState = {
-  isAuth: false,
+  isAuth: true,
   token: null,
   isLoading: false,
   isError: false,
   currentSongs: [],
+  beforeFilter: [],
   currentPlaying: null,
   currentPlayingSong: null,
   errorMessage: null,
@@ -47,6 +49,9 @@ export function reducer(state = initialState, { type, payload }) {
   }
   if (type === SET_CURRENT_SONG_DATA) {
     return { ...state, currentPlayingSong: payload };
+  }
+  if (type === SAVE_TO_BEFORE_FILTER) {
+    return { ...state, beforeFilter: payload };
   }
   return state;
 }

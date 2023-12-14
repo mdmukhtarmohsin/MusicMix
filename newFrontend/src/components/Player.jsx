@@ -8,6 +8,7 @@ import { useGlobalAudioPlayer } from "react-use-audio-player";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { streamSong } from "../redux/action";
+import { SET_CURRENT_PLAYING } from "../redux/actionTypes";
 
 export const Player = () => {
   const { load, playing, togglePlayPause, setVolume } = useGlobalAudioPlayer();
@@ -17,7 +18,50 @@ export const Player = () => {
   const currentSongID = useSelector((store) => {
     return store.currentPlaying;
   });
+  const songs = useSelector((store) => {
+    return store.currentSongs;
+  });
   const dispatch = useDispatch();
+  const handlePrev = () => {
+    if (songs.length > 0) {
+      const indexofCurrentSong = songs.findIndex((song) => {
+        return song._id === currentSong._id;
+      });
+      if (indexofCurrentSong === 0) {
+        dispatch({
+          type: SET_CURRENT_PLAYING,
+          payload: songs[songs.length - 1]._id,
+        });
+        return;
+      } else {
+        dispatch({
+          type: SET_CURRENT_PLAYING,
+          payload: songs[indexofCurrentSong - 1]._id,
+        });
+        return;
+      }
+    }
+  };
+  const handleNext = () => {
+    if (songs.length > 0) {
+      const indexofCurrentSong = songs.findIndex((song) => {
+        return song._id === currentSong._id;
+      });
+      if (indexofCurrentSong === songs.length - 1) {
+        dispatch({
+          type: SET_CURRENT_PLAYING,
+          payload: songs[0]._id,
+        });
+        return;
+      } else {
+        dispatch({
+          type: SET_CURRENT_PLAYING,
+          payload: songs[indexofCurrentSong + 1]._id,
+        });
+        return;
+      }
+    }
+  };
   useEffect(() => {
     if (currentSongID) {
       streamSong(dispatch, currentSongID);
@@ -52,6 +96,7 @@ export const Player = () => {
           <CgPlayTrackPrev
             style={{ fontSize: "35px" }}
             className="hover:cursor-pointer hover:text-white"
+            onClick={handlePrev}
           />
           {playing ? (
             <BsFillPauseCircleFill
@@ -73,6 +118,7 @@ export const Player = () => {
           <CgPlayTrackNext
             style={{ fontSize: "35px" }}
             className="hover:cursor-pointer hover:text-white"
+            onClick={handleNext}
           />
           <FiRepeat
             style={{ fontSize: "20px" }}
