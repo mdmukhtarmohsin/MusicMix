@@ -85,7 +85,11 @@ export const Player = () => {
   return (
     <div className=" text-white bg-primary-800 h-1/6 rounded flex justify-between">
       <div className="hidden md:flex w-1/4 justify-start gap-5 items-center">
-        <img src={currentSong?.album} alt="" className=" w-2/6 pl-5 h-5/6" />
+        <img
+          src={currentSong?.album || "black-musicmixlogo.JPG"}
+          alt=""
+          className=" w-2/6 pl-5 h-5/6"
+        />
         <div className="flex flex-col justify-center gap-4 text-base">
           <p>{currentSong?.title}</p>
           <p>{currentSong?.artist}</p>

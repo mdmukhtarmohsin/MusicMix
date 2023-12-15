@@ -20,6 +20,10 @@ export const SignIn = () => {
     e.preventDefault();
     signInUser(dispatch, { email, password });
   };
+  const handleGuestSignIn = (e) => {
+    e.preventDefault();
+    signInUser(dispatch, { email: "test@test.com", password: "test1234" });
+  };
   useEffect(() => {
     if (isAuth) {
       navigate("/home");
@@ -115,6 +119,7 @@ export const SignIn = () => {
             >
               Sign in
             </button>
+
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               Don’t have an account yet?{" "}
               <a
@@ -124,6 +129,12 @@ export const SignIn = () => {
                 Sign up
               </a>
             </p>
+            <button
+              className="w-full text-white bg-primary-700 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-primary-900"
+              onClick={handleGuestSignIn}
+            >
+              Guest Login
+            </button>
           </form>
         </div>
       </div>
