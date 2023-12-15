@@ -2,5 +2,6 @@
 
 Stream your favourite Music.
 
-![Capturemusic](https://github.com/mdmukhtarmohsin/MusicMix/assets/25591878/cac0ea80-49cc-45ae-8bc5-01faffa1b484)
+![MusicMix (2)](https://github.com/mdmukhtarmohsin/MusicMix/assets/25591878/81766344-bd59-488b-bc63-54a52c7fb765)
+
 
