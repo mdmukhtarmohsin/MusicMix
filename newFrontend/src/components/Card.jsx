@@ -11,7 +11,7 @@ export const Card = ({ _id, title, artist, album }) => {
 
   return (
     <div
-      className=" w-48 bg-primary-950 p-2 h-fit rounded-lg flex flex-col items-center hover:cursor-pointer group"
+      className=" w-48 bg-primary-950 p-2 h-fit rounded-lg flex flex-col items-center hover:cursor-pointer group hover:bg-primary-700"
       onClick={handleClick}
     >
       <div className="w-full position: relative">

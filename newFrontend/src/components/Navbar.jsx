@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,15 +7,22 @@ import {
 } from "../redux/actionTypes";
 
 export const Navbar = () => {
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
   const songs = useSelector((store) => {
     return store.currentSongs;
   });
   const beforeFilter = useSelector((store) => {
     return store.beforeFilter;
   });
+  const user = useSelector((store) => {
+    return store.user;
+  });
+  const handleLogout = () => {
+    localStorage.setItem("musicmixtoken", "");
+    window.location.reload();
+  };
   const dispatch = useDispatch();
-  const handleSearch = () => {
+  const handleSearch = (search) => {
     if (search === "" && beforeFilter.length > 0) {
       dispatch({ type: GET_ALL_SONGS_SUCCESS, payload: beforeFilter });
     }
@@ -41,7 +48,7 @@ export const Navbar = () => {
           placeholder="What to you want to listen ?"
           className="bg-primary-700 focus:border-primary-700 w-full h-10 rounded p-3"
           onChange={(e) => {
-            setSearch(e.target.value);
+            handleSearch(e.target.value);
           }}
         />
         <div
@@ -52,9 +59,14 @@ export const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-4">
-        <h1>UserName</h1>
-        <button>Logout</button>
+      <div className="flex justify-center items-center gap-10">
+        <h1 className="text-xl">{user?.username}</h1>
+        <button
+          className=" bg-primary-900 text-white pl-5 pr-5 pt-3 pb-3 rounded-lg h hover:bg-primary-700 duration-500 ease-in-out"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

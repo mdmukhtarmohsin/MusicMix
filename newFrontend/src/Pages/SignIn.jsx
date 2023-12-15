@@ -24,6 +24,9 @@ export const SignIn = () => {
     if (isAuth) {
       navigate("/home");
     }
+    if (localStorage.getItem("musicmixtoken")) {
+      navigate("/home");
+    }
   }, [isAuth, navigate]);
   return (
     <section className="flex flex-col md:flex-col h-screen items-center justify-center gap-8 bg-primary-950">

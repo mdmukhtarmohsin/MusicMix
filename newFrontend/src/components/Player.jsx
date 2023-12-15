@@ -6,12 +6,16 @@ import { FaCirclePlay } from "react-icons/fa6";
 import { SlVolume2 } from "react-icons/sl";
 import { useGlobalAudioPlayer } from "react-use-audio-player";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { streamSong } from "../redux/action";
 import { SET_CURRENT_PLAYING } from "../redux/actionTypes";
+import { ProgressBar } from "./ProgressBar";
+import { Modal } from "./MOdal";
 
 export const Player = () => {
-  const { load, playing, togglePlayPause, setVolume } = useGlobalAudioPlayer();
+  const { load, playing, play, pause, setVolume, looping, loop } =
+    useGlobalAudioPlayer();
+  const [ismodalOpen, setisModalOpen] = useState(false);
   const currentSong = useSelector((store) => {
     return store.currentPlayingSong;
   });
@@ -85,6 +89,18 @@ export const Player = () => {
         <div className="flex flex-col justify-center gap-4 text-base">
           <p>{currentSong?.title}</p>
           <p>{currentSong?.artist}</p>
+          {currentSong && (
+            <button
+              className=" text-start bg-primary-700 rounded w-fit p-1 pl-2 pr-2 hover:bg-primary-900 duration-500 ease-in-out"
+              onClick={() => {
+                setisModalOpen(true);
+              }}
+            >
+              Add to Playlist
+            </button>
+          )}
+
+          <Modal ismodalOpen={ismodalOpen} setisModalOpen={setisModalOpen} />
         </div>
       </div>
       <div className="w-full md:w-2/4 h-full">
@@ -103,7 +119,7 @@ export const Player = () => {
               style={{ fontSize: "40px" }}
               className="hover:cursor-pointer hover:text-white"
               onClick={() => {
-                togglePlayPause();
+                pause();
               }}
             />
           ) : (
@@ -111,7 +127,7 @@ export const Player = () => {
               style={{ fontSize: "40px" }}
               className="hover:cursor-pointer hover:text-white"
               onClick={() => {
-                togglePlayPause();
+                play();
               }}
             />
           )}
@@ -122,12 +138,21 @@ export const Player = () => {
           />
           <FiRepeat
             style={{ fontSize: "20px" }}
-            className="hover:cursor-pointer hover:text-white"
+            className={`hover:cursor-pointer hover:text-white ${
+              looping && `text-primary-900 hover:text-primary-900`
+            }`}
+            onClick={() => {
+              if (looping) {
+                loop(false);
+              } else {
+                loop(true);
+              }
+            }}
           />
         </div>
         <div className="h-1/2 flex flex-col justify-center">
           <div className="h-1 w-full bg-neutral-200 dark:bg-neutral-600">
-            <div className="h-1 bg-white" style={{ width: "45%" }}></div>
+            <ProgressBar />
           </div>
         </div>
       </div>

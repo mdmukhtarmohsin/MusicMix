@@ -15,7 +15,7 @@ export const MainBody = () => {
   }, []);
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center md:flex md:flex-wrap p-5 gap-5 md:content-center">
+      <div className="flex items-center md:flex flex-wrap p-5 gap-5">
         {new Array(12).fill(0).map((load, index) => {
           return <Loading key={index} />;
         })}
