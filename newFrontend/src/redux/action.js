@@ -13,7 +13,7 @@ import {
   STORE_USER_DATA,
 } from "./actionTypes";
 
-const url = `https://loud-weight1875-production.up.railway.app/`;
+const url = `https://musicmix-production.up.railway.app/`;
 
 export async function getAllSongs(dispatch) {
   try {
